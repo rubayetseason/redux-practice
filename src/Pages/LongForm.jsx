@@ -9,13 +9,13 @@ const LongForm = () => {
     education: "",
     quantity: 0,
     feedback: "",
-    term: true,
+    term: false,
   };
   const reducer = (state, action) => {
     switch (action.type) {
       case "INPUT":
         return { ...state, [action.payload.name]: action.payload.value };
-
+case "TOGGLE" : return {...state, term: !state.term};
       default:
         return state;
     }
@@ -98,43 +98,61 @@ const LongForm = () => {
           <h1 className="mb-3">Gender</h1>
           <div className="flex gap-3">
             <div>
-              <input type="radio" id="male" name="gender" value="male" onClick={(e) =>
-              dispatch({
-                type: "INPUT",
-                payload: {
-                  name: e.target.name,
-                  value: e.target.value,
-                },
-              })
-            } />
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                value="male"
+                onClick={(e) =>
+                  dispatch({
+                    type: "INPUT",
+                    payload: {
+                      name: e.target.name,
+                      value: e.target.value,
+                    },
+                  })
+                }
+              />
               <label className="ml-2 text-lg" for="male">
                 Male
               </label>
             </div>
             <div>
-              <input type="radio" id="female" name="gender" value="female" onClick={(e) =>
-              dispatch({
-                type: "INPUT",
-                payload: {
-                  name: e.target.name,
-                  value: e.target.value,
-                },
-              })
-            } />
+              <input
+                type="radio"
+                id="female"
+                name="gender"
+                value="female"
+                onClick={(e) =>
+                  dispatch({
+                    type: "INPUT",
+                    payload: {
+                      name: e.target.name,
+                      value: e.target.value,
+                    },
+                  })
+                }
+              />
               <label className="ml-2 text-lg" for="female">
                 Female
               </label>
             </div>
             <div>
-              <input type="radio" id="other" name="gender" value="other" onClick={(e) =>
-              dispatch({
-                type: "INPUT",
-                payload: {
-                  name: e.target.name,
-                  value: e.target.value,
-                },
-              })
-            } />
+              <input
+                type="radio"
+                id="other"
+                name="gender"
+                value="other"
+                onClick={(e) =>
+                  dispatch({
+                    type: "INPUT",
+                    payload: {
+                      name: e.target.name,
+                      value: e.target.value,
+                    },
+                  })
+                }
+              />
               <label className="ml-2 text-lg" for="other">
                 Other
               </label>
@@ -145,7 +163,19 @@ const LongForm = () => {
           <label className="mb-3" for="education">
             Education
           </label>
-          <select name="education" id="education">
+          <select
+            name="education"
+            id="education"
+            onChange={(e) =>
+              dispatch({
+                type: "INPUT",
+                payload: {
+                  name: e.target.name,
+                  value: e.target.value,
+                },
+              })
+            }
+          >
             <option value="SSC">SSC</option>
             <option value="HSC">HSC</option>
             <option value="underGrad">Under Graduate</option>
@@ -176,17 +206,26 @@ const LongForm = () => {
             id="feedback"
             cols="30"
             rows="4"
+            onBlur={(e) =>
+              dispatch({
+                type: "INPUT",
+                payload: {
+                  name: e.target.name,
+                  value: e.target.value,
+                },
+              })
+            }
           ></textarea>
         </div>
 
         <div className="flex justify-between items-center w-full">
           <div className="flex  w-full max-w-xs">
-            <input className="mr-3" type="checkbox" name="term" id="terms" />
+            <input onClick={() => dispatch({type : "TOGGLE"})} className="mr-3" type="checkbox" name="term" id="terms" />
             <label for="terms">I agree to terms and conditions</label>
           </div>
           <button
             className=" px-4 py-3 bg-indigo-500 rounded-md font-semibold text-white text-lg disabled:bg-gray-500"
-            type="submit"
+            type="submit" disabled={!state.term}
           >
             Submit
           </button>
