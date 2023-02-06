@@ -15,7 +15,12 @@ const LongForm = () => {
     switch (action.type) {
       case "INPUT":
         return { ...state, [action.payload.name]: action.payload.value };
-case "TOGGLE" : return {...state, term: !state.term};
+      case "TOGGLE":
+        return { ...state, term: !state.term };
+      case "INCREASE":
+        return { ...state, quantity: state.quantity + 1 };
+      case "DECREASE":
+        return { ...state, quantity: state.quantity - 1 };
       default:
         return state;
     }
@@ -113,7 +118,7 @@ case "TOGGLE" : return {...state, term: !state.term};
                   })
                 }
               />
-              <label className="ml-2 text-lg" for="male">
+              <label className="ml-2 text-lg" htmlFor="male">
                 Male
               </label>
             </div>
@@ -133,7 +138,7 @@ case "TOGGLE" : return {...state, term: !state.term};
                   })
                 }
               />
-              <label className="ml-2 text-lg" for="female">
+              <label className="ml-2 text-lg" htmlFor="female">
                 Female
               </label>
             </div>
@@ -153,14 +158,14 @@ case "TOGGLE" : return {...state, term: !state.term};
                   })
                 }
               />
-              <label className="ml-2 text-lg" for="other">
+              <label className="ml-2 text-lg" htmlFor="other">
                 Other
               </label>
             </div>
           </div>
         </div>
         <div className="flex flex-col w-full max-w-xs">
-          <label className="mb-3" for="education">
+          <label className="mb-3" htmlFor="education">
             Education
           </label>
           <select
@@ -185,19 +190,33 @@ case "TOGGLE" : return {...state, term: !state.term};
         <div className="flex flex-col w-full max-w-xs">
           <label className="mb-3">Number of PCs</label>
           <div className="flex justify-between items-center gap-2 ">
-            <button className="bg-indigo-500 text-lg text-white rounded h-10 w-10 ">
+            <button
+              onClick={() =>
+                dispatch({
+                  type: "DECREASE",
+                })
+              }
+              className="bg-indigo-500 text-lg text-white rounded h-10 w-10 "
+            >
               -
             </button>
             <div className="border flex-1 flex justify-center items-center h-10 rounded-md border-gray-300">
-              <span className="text-lg">0</span>
+              <span className="text-lg">{state.quantity}</span>
             </div>
-            <button className="bg-indigo-500 text-lg text-white rounded h-10 w-10">
+            <button
+              onClick={() =>
+                dispatch({
+                  type: "INCREASE",
+                })
+              }
+              className="bg-indigo-500 text-lg text-white rounded h-10 w-10"
+            >
               +
             </button>
           </div>
         </div>
         <div className="flex flex-col w-full max-w-xs">
-          <label className="mb-3" for="feedback">
+          <label className="mb-3" htmlFor="feedback">
             Feedback
           </label>
           <textarea
@@ -220,12 +239,19 @@ case "TOGGLE" : return {...state, term: !state.term};
 
         <div className="flex justify-between items-center w-full">
           <div className="flex  w-full max-w-xs">
-            <input onClick={() => dispatch({type : "TOGGLE"})} className="mr-3" type="checkbox" name="term" id="terms" />
-            <label for="terms">I agree to terms and conditions</label>
+            <input
+              onClick={() => dispatch({ type: "TOGGLE" })}
+              className="mr-3"
+              type="checkbox"
+              name="term"
+              id="terms"
+            />
+            <label htmlFor="terms">I agree to terms and conditions</label>
           </div>
           <button
             className=" px-4 py-3 bg-indigo-500 rounded-md font-semibold text-white text-lg disabled:bg-gray-500"
-            type="submit" disabled={!state.term}
+            type="submit"
+            disabled={!state.term}
           >
             Submit
           </button>
