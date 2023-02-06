@@ -1,10 +1,10 @@
 import './App.css';
-import Counter from './Pages/Counter';
+import LongForm from './Pages/LongForm';
 
 function App() {
   return (
-    <div className="h-screen flex justify-center items-center">
-      <Counter></Counter>
+    <div className="h-full flex justify-center items-center">
+      <LongForm></LongForm>
     </div>
   );
 }
